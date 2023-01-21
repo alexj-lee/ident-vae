@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title> Title </title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/simple.css">
+	<link rel="stylesheet" href="dist/styles.css">
+	<link rel="stylesheet" href="plugin/pointer/pointer.css" />
+	<link rel="stylesheet" href="plugin/chalkboard/style.css">
+	<link rel="stylesheet" href="plugin/customcontrols/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<script src="https://cdn.tailwindcss.com"></script>
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<p class="text-8xl"> Identifiability and parameterization in VAEs </p>
+			</section>
+
+			<section>
+				<h1>Principles of VAEs </h1>
+				<p class="text-2xl"> largely from the paper <a href="https://arxiv.org/abs/1907.04809">Variational
+						autoencoders and
+						nonlinear ICA, (Khemakhem, 2020)</a> </p>
+
+				<div class="flex h-screen">
+					<div class="m-auto max-w-7xl">
+						<p class="fragment text-4xl">
+							<br>
+							In general, we hope to model some random vectors $\mathbf{x} \in \mathbb{R}^d$ by using a
+							latent
+							variable $\mathbf{z} \in \mathbb{R}^n$ to factorize the joint model:
+
+							$$
+							p_\mathbf{\theta}(\mathbf{x}, \mathbf{z}) = p_\mathbf{\theta}(x \mid
+							\mathbf{z})p_\mathbf{\theta}(\mathbf{z})
+							$$
+
+						<p class="fragment text-4xl"> we typically model the conditional density with the
+							decoder of
+							an
+							encoder-decoder neural network with vector parameters
+							$\mathbf{\theta}
+							\in \Theta$ <br> ($p_\mathbf{\theta}(\mathbf{z})$ is
+							a prior over the latents) </p>
+						</p>
+
+						<p class="fragment text-4xl">
+							The model then gives the observed distribution as: <br>
+							$p_\theta(x) = \int p_{\mathbf{\theta}}(\mathbf{x}, \mathbf{z}) \mathrm{d}\mathbf{z}$
+						</p>
+						</p>
+
+					</div>
+				</div>
+
+			</section>
+
+			<section>
+				<div class="flex h-screen">
+					<div class="m-auto max-w-6xl">
+						<p> We assume there is a true data generating process given by $p_{\mathbf{\theta^*}}\
+							(\mathbf{x}, \mathbf{z}) = p_{\theta^*} (\mathbf{x} \mid \mathbf{z})$
+							$
+							p_{\mathbf{\theta}^*}\ (\mathbf{z}^{*})$, with $\mathbf{\theta}^*$ as true but unknown
+							parameters. </p>
+
+						<div class="multiCol">
+
+							<div class="col">
+								<p class="fragment">
+									<br>
+									We collect observations of $\mathbf{x}$:
+
+									$$
+									\mathcal{D} = \{\mathbf{x}^{(1)}, ..., \mathbf{x}^{(\mathit{N})}\}
+									\newline$$
+
+									$$
+									\mathbf{z}^{*(\mathit{i})} \sim p_{\mathbf{\theta}^*}\ (\mathbf{z})
+									\\
+									\mathbf{x}^{(\mathit{i})} \sim p_{\mathbf{\theta}^*}\ (\mathbf{x} \mid
+									\mathbf{z}^{*(\mathit{i})})
+									$$
+
+								</p>
+
+							</div>
+
+							<div class="col">
+
+								<p class="fragment">
+
+									<br> <br>
+									and optimize $\mathbf{\theta}$ towards the likelihood objective in order to
+									estimate:
+
+									<br> <br>
+
+									$p_{\theta}(\mathbf{x}) \approx p_{\theta^*}(\mathbf{x})$
+
+								</p>
+
+							</div>
+
+						</div>
+
+						In the end, we learn a full generative model:
+						<br> $p_\mathbf{\theta}(\mathbf{x}, \mathbf{z}) =
+						p_\mathbf{\theta}(\mathbf{x}\mid\mathbf{z})p_\mathbf{\theta}(\mathbf{z})$ AND <br> an inference
+						model
+						$q_\phi({\mathbf{z}\mid{\mathbf{x}}})$
+					</div>
+
+				</div>
+			</section>
+
+			<section>
+				<h1> But really, the only thing we can be certain of is that $p_\mathbf{\theta^*}(\mathbf{x})$ is
+					meaningful</h1>
+
+			</section>
+
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script src="plugin/pointer/pointer.js"></script>
+	<script src="plugin/math/math.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/chalkboard/plugin.js"></script>
+	<script src="plugin/customcontrols/plugin.js"></script>
+
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			center: true,
+			margin: 0,
+			padding: 0,
+			width: 1920,
+			height: 1080,
+			minScale: 0.2,
+			maxScale: 1.5,
+			keyboard: true,
+			overview: true,
+			pointer: {
+				key: "q",
+				color: "red",
+				pointerSize: 45,
+				alwaysVisible: false
+			},
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX, RevealPointer, RevealChalkboard]
+		});
+	</script>
+</body>
+
+</html>
